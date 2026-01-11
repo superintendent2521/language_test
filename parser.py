@@ -1,14 +1,35 @@
 # im going to go fucking insane
+from dataclasses import dataclass
+
+@dataclass
+class Token:
+    type: str
+    value: int | None = None
+
+source = "1 PLUS 2"
+
+opmodes = [
+    "PLUS",
+    "SUBTRACT",
+    "MULTIPLY",
+    "DIVIDE",
+]
 
 
-s = input()
-parts = s.split(" ") # Space here splits it so i can do logic
+def tokenize(source: str):
+    tokens = []
+    words = source.split()
 
+    for word in words:
+        if word.isdigit():
+            tokens.append(Token("NUMBER", int(word)))
+        elif word in opmodes:
+            tokens.append(Token(word))
+        else:
+            raise SyntaxError(f"Unknown token: {word}")
 
-print(parts)
-num1 = int(parts[0]) # fucked up example of getting both ints?
-num2 = int(parts[2])
+    return tokens
 
-if 'PLUS' in parts:
-    output = num1 + num2
-    print(output)
+full_token = tokenize(source)
+
+print(full_token[0])
